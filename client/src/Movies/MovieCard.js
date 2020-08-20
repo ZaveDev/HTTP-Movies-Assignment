@@ -1,9 +1,26 @@
 import React from 'react';
+import axios from 'axios';
+
+
 
 const MovieCard = props => {
-  const { title, director, metascore, stars } = props.movie;
+  const { id, title, director, metascore, stars } = props.movie;
+  console.log(props);
+
+  const deleteMovie = (e) => {
+    e.preventDefault()
+    axios
+    .delete(`http://localhost:5000/api/movies/${id}`)
+    .then(res => {
+      console.log(res);
+      props.getMovieList()
+    })
+    .catch(err => {console.log(err);})
+  }
+
   return (
-    <div className="movie-card">
+    <>
+      <div className="movie-card">
       <h2>{title}</h2>
       <div className="movie-director">
         Director: <em>{director}</em>
@@ -19,6 +36,8 @@ const MovieCard = props => {
         </div>
       ))}
     </div>
+      <button onClick={deleteMovie}>X</button>
+    </>
   );
 };
 
